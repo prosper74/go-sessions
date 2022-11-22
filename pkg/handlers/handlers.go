@@ -31,17 +31,13 @@ func NewHandlers(r *Repository) {
 
 // A function with a 'reciever' m, of type 'Repository'. This will give our handler function access to everything in the config file
 func (m *Repository) Home(w http.ResponseWriter, r *http.Request) {
-	// Get the IP address of user
 	remoteIP := r.RemoteAddr
-	// store the IP in the site wide config which is available via the paramter 'm'
-	// It takes in three parameters. The context, the name (which can be anything), and the value
 	m.App.Session.Put(r.Context(), "remote_ip", remoteIP)
 
 	//Perform some logic
 	stringMap := make(map[string]string)
 	stringMap["test"] = "Hello again."
 
-	// Get the remote IP and pass it to the template
 	getRemoteIP := m.App.Session.GetString(r.Context(), "remote_ip")
 	stringMap["remote_ip"] = getRemoteIP
 	fmt.Println("Your IP address is", getRemoteIP)
